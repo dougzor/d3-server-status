@@ -106,8 +106,11 @@ if __name__ == "__main__":
                 update_run_status(parser.status)
 
                 for number in PHONE_NUMBERS:
-
-                    if parser.status == 'UP' and last_run['status'] == 'DOWN':
+                    # If this is the first run, don't send an sms, just write to a file
+                    # because we only want to check the difference
+                    if not last_run:
+                        pass
+                    elif parser.status == 'UP' and last_run['status'] == 'DOWN':
                         send_sms(number, "Diablo3 is UP!")
                     elif parser.status == 'DOWN' and last_run['status'] == 'UP':
                         send_sms(number, "Diablo3 is Down :(")
